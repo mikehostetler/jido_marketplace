@@ -41,8 +41,12 @@ defmodule JidoMarketplace.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      # Jido
       {:jido, "~> 2.0-rc.1", override: true},
+      {:jido_ai, github: "agentjido/jido_ai", branch: "develop"},
       {:ash_jido, github: "agentjido/ash_jido"},
+
+      # Base Dependencies
       {:gettext, "~> 0.10", override: true},
       {:picosat_elixir, "~> 0.2"},
       {:sourceror, "~> 1.8", only: [:dev, :test]},

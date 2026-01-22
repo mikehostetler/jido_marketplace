@@ -38,6 +38,12 @@ defmodule JidoMarketplaceWeb.Router do
     end
   end
 
+  scope "/demos/jido", JidoMarketplaceWeb.Demos do
+    pipe_through :browser
+
+    live "/1-counter", CounterLive, :index
+  end
+
   scope "/", JidoMarketplaceWeb do
     pipe_through :browser
 
