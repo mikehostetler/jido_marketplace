@@ -54,6 +54,10 @@ config :jido_marketplace,
   ash_domains: [JidoMarketplace.Accounts],
   ash_authentication: [return_error_on_invalid_magic_link_token?: true]
 
+config :jido_marketplace, JidoMarketplace.Jido,
+  max_tasks: 1000,
+  agent_pools: []
+
 # Configure the endpoint
 config :jido_marketplace, JidoMarketplaceWeb.Endpoint,
   url: [host: "localhost"],

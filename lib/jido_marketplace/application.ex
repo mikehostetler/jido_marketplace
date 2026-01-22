@@ -12,6 +12,7 @@ defmodule JidoMarketplace.Application do
       JidoMarketplace.Repo,
       {DNSCluster, query: Application.get_env(:jido_marketplace, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: JidoMarketplace.PubSub},
+      JidoMarketplace.Jido,
       # Start a worker by calling: JidoMarketplace.Worker.start_link(arg)
       # {JidoMarketplace.Worker, arg},
       # Start to serve requests, typically the last entry

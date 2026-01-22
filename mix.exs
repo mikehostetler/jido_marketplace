@@ -41,6 +41,9 @@ defmodule JidoMarketplace.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:jido, "~> 2.0-rc.1", override: true},
+      {:ash_jido, github: "agentjido/ash_jido"},
+      {:gettext, "~> 0.10", override: true},
       {:picosat_elixir, "~> 0.2"},
       {:sourceror, "~> 1.8", only: [:dev, :test]},
       {:usage_rules, "~> 0.1", only: [:dev]},
@@ -72,7 +75,6 @@ defmodule JidoMarketplace.MixProject do
       {:req, "~> 0.5"},
       {:telemetry_metrics, "~> 1.0"},
       {:telemetry_poller, "~> 1.0"},
-      {:gettext, "~> 1.0"},
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.2.0"},
       {:bandit, "~> 1.5"}
