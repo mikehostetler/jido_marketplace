@@ -28,6 +28,14 @@ defmodule JidoMarketplaceWeb.HomeLive do
       description:
         "Jido.AI integration: ReActAgent macro, async LLM communication, streaming responses via polling",
       concepts: ["ReActAgent", "Model Aliases", "Async ask/2", "Strategy Snapshot"]
+    },
+    %{
+      path: "/demos/jido/4-listings",
+      title: "Listing Manager",
+      number: 4,
+      description:
+        "AshJido integration: Ash resources as agent tools, AI-driven CRUD operations, policy enforcement",
+      concepts: ["AshJido", "Ash Resources", "Generated Actions", "ETS Data Layer"]
     }
   ]
 
