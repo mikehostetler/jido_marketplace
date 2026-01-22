@@ -43,7 +43,7 @@ defmodule JidoMarketplace.MixProject do
     [
       # Jido
       {:jido, "~> 2.0-rc.1", override: true},
-      {:jido_ai, github: "agentjido/jido_ai", branch: "develop"},
+      {:jido_ai, path: "vendor/jido_ai", override: true},
       {:ash_jido, github: "agentjido/ash_jido"},
 
       # Base Dependencies
@@ -76,12 +76,14 @@ defmodule JidoMarketplace.MixProject do
        compile: false,
        depth: 1},
       {:swoosh, "~> 1.16"},
+      {:mdex, "~> 0.4"},
       {:req, "~> 0.5"},
       {:telemetry_metrics, "~> 1.0"},
       {:telemetry_poller, "~> 1.0"},
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.2.0"},
-      {:bandit, "~> 1.5"}
+      {:bandit, "~> 1.5"},
+      {:tidewave, "~> 0.5"}
     ]
   end
 
