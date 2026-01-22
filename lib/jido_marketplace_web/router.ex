@@ -45,6 +45,7 @@ defmodule JidoMarketplaceWeb.Router do
     live "/2-demand-tracker", DemandTrackerLive, :index
     live "/3-chat", ChatLive, :index
     live "/4-listings", ListingManagerLive, :index
+    live "/5-weekend-sale", WeekendSaleLive, :index
   end
 
   scope "/", JidoMarketplaceWeb do

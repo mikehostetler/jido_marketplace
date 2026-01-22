@@ -51,7 +51,7 @@ config :spark,
 config :jido_marketplace,
   ecto_repos: [JidoMarketplace.Repo],
   generators: [timestamp_type: :utc_datetime],
-  ash_domains: [JidoMarketplace.Accounts],
+  ash_domains: [JidoMarketplace.Accounts, JidoMarketplace.Demos.ListingsDomain],
   ash_authentication: [return_error_on_invalid_magic_link_token?: true]
 
 config :jido_marketplace, JidoMarketplace.Jido,

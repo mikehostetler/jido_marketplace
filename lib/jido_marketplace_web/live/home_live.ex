@@ -36,6 +36,14 @@ defmodule JidoMarketplaceWeb.HomeLive do
       description:
         "AshJido integration: Ash resources as agent tools, AI-driven CRUD operations, policy enforcement",
       concepts: ["AshJido", "Ash Resources", "Generated Actions", "ETS Data Layer"]
+    },
+    %{
+      path: "/demos/jido/5-weekend-sale",
+      title: "Multi-Agent Weekend Sale",
+      number: 5,
+      description:
+        "Multi-agent orchestration: Orchestrator spawning specialists, parallel execution, fan-in results, unified plan execution",
+      concepts: ["spawn_agent", "emit_to_parent", "Signal Routing", "Fan-in/Fan-out"]
     }
   ]
 

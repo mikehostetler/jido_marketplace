@@ -109,5 +109,4 @@ defmodule JidoMarketplace.Demos.Listings.Tools do
       Listing.Jido.Destroy.run(params, JidoMarketplace.Demos.Listings.Tools.context())
     end
   end
-
 end

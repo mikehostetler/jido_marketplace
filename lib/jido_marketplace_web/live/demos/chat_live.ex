@@ -271,10 +271,15 @@ defmodule JidoMarketplaceWeb.Demos.ChatLive do
   defp sync_tool_calls(messages, tool_calls, trace) do
     {messages, seen, completed} =
       Enum.reduce(tool_calls, {messages, trace.seen_tool_ids, trace.completed_tool_ids}, fn tc,
-                                                                                            {msgs, seen, completed} ->
+                                                                                            {msgs,
+                                                                                             seen,
+                                                                                             completed} ->
         if MapSet.member?(seen, tc.id) do
           msgs = update_tool_call(msgs, tc)
-          completed = if tc.status == :completed, do: MapSet.put(completed, tc.id), else: completed
+
+          completed =
+            if tc.status == :completed, do: MapSet.put(completed, tc.id), else: completed
+
           {msgs, seen, completed}
         else
           tool_msg = %{
@@ -288,7 +293,10 @@ defmodule JidoMarketplaceWeb.Demos.ChatLive do
 
           msgs = insert_before_pending(msgs, tool_msg)
           seen = MapSet.put(seen, tc.id)
-          completed = if tc.status == :completed, do: MapSet.put(completed, tc.id), else: completed
+
+          completed =
+            if tc.status == :completed, do: MapSet.put(completed, tc.id), else: completed
+
           {msgs, seen, completed}
         end
       end)
@@ -402,11 +410,17 @@ defmodule JidoMarketplaceWeb.Demos.ChatLive do
         <div class="card bg-base-200 shadow-lg">
           <div class="card-body">
             <%!-- Messages --%>
-            <div id="messages" class="h-[400px] overflow-y-auto space-y-3 mb-4" phx-hook="ScrollBottom">
+            <div
+              id="messages"
+              class="h-[400px] overflow-y-auto space-y-3 mb-4"
+              phx-hook="ScrollBottom"
+            >
               <%= if @messages == [] do %>
                 <div class="text-center text-base-content/50 py-8">
                   <p class="text-lg">Start a conversation</p>
-                  <p class="text-sm mt-2">Try: "What is 15 * 23?" or "What's the weather in Chicago?"</p>
+                  <p class="text-sm mt-2">
+                    Try: "What is 15 * 23?" or "What's the weather in Chicago?"
+                  </p>
                 </div>
               <% else %>
                 <%= for msg <- @messages do %>
@@ -436,13 +450,13 @@ defmodule JidoMarketplaceWeb.Demos.ChatLive do
                   <% end %>
 
                   <%= if msg.role in [:user, :assistant] do %>
-                    <div class={["chat", msg.role == :user && "chat-end" || "chat-start"]}>
+                    <div class={["chat", (msg.role == :user && "chat-end") || "chat-start"]}>
                       <div class="chat-header text-xs opacity-70 mb-1">
                         {if msg.role == :user, do: "You", else: "Assistant"}
                       </div>
                       <div class={[
                         "chat-bubble max-w-2xl",
-                        msg.role == :user && "chat-bubble-primary" || "chat-bubble-neutral"
+                        (msg.role == :user && "chat-bubble-primary") || "chat-bubble-neutral"
                       ]}>
                         <%= if msg[:pending] == true and msg.content == "" do %>
                           <span class="loading loading-dots loading-sm"></span>
