@@ -42,6 +42,7 @@ defmodule JidoMarketplaceWeb.Router do
     pipe_through :browser
 
     live "/1-counter", CounterLive, :index
+    live "/2-demand-tracker", DemandTrackerLive, :index
   end
 
   scope "/", JidoMarketplaceWeb do
