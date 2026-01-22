@@ -11,7 +11,10 @@ defmodule JidoMarketplaceWeb.Demos.WeekendSaleLive do
   use JidoMarketplaceWeb, :live_view
 
   alias JidoMarketplace.Demos.MultiAgent.OrchestratorAgent
-  alias JidoMarketplace.Demos.Listings.Tools
+  alias JidoMarketplace.Demos.ListingsDomain
+  alias JidoMarketplace.Demos.ListingsDomain.Listing
+
+  @default_actor %{id: "00000000-0000-0000-0000-000000000001", role: :user}
 
   @poll_interval 100
 
@@ -71,8 +74,10 @@ defmodule JidoMarketplaceWeb.Demos.WeekendSaleLive do
       %{title: "Comic Book - Action Comics #1 Reprint", price: "25.00", quantity: 3}
     ]
 
+    ash_context = %{domain: ListingsDomain, actor: @default_actor}
+
     Enum.reduce(listings_data, socket, fn params, acc ->
-      case Tools.CreateListing.run(params, %{}) do
+      case Listing.Jido.Create.run(params, ash_context) do
         {:ok, listing} ->
           stream_insert(acc, :listings, %{id: get_listing_id(listing), data: listing})
 

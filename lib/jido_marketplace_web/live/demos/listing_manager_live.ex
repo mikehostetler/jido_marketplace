@@ -26,7 +26,7 @@ defmodule JidoMarketplaceWeb.Demos.ListingManagerLive do
 
   @impl true
   def mount(_params, _session, socket) do
-    actor = %{id: nil, role: :guest}
+    actor = %{id: Ash.UUID.generate(), role: :user}
 
     socket =
       socket
@@ -100,24 +100,6 @@ defmodule JidoMarketplaceWeb.Demos.ListingManagerLive do
        |> assign(:messages, socket.assigns.messages ++ [user_msg, pending_msg])
        |> schedule_poll()}
     end
-  end
-
-  def handle_event("set_role", %{"role" => role_str}, socket) do
-    role = String.to_existing_atom(role_str)
-
-    actor =
-      case role do
-        :guest -> %{id: nil, role: :guest}
-        :user -> %{id: Ash.UUID.generate(), role: :user}
-        :admin -> %{id: Ash.UUID.generate(), role: :admin}
-      end
-
-    listings = fetch_listings(actor)
-
-    {:noreply,
-     socket
-     |> assign(:actor, actor)
-     |> assign(:listings, listings)}
   end
 
   def handle_event("restart_agent", _params, socket) do
@@ -398,52 +380,6 @@ defmodule JidoMarketplaceWeb.Demos.ListingManagerLive do
             <button phx-click="restart_agent" class="btn btn-sm">Restart Agent</button>
           </div>
         <% end %>
-
-        <div class="card bg-base-200 shadow">
-          <div class="card-body p-4">
-            <div class="flex items-center gap-4 flex-wrap">
-              <span class="font-semibold text-sm">Actor Role:</span>
-              <div class="join">
-                <button
-                  type="button"
-                  phx-click="set_role"
-                  phx-value-role="guest"
-                  class={[
-                    "join-item btn btn-sm",
-                    (@actor.role == :guest && "btn-primary") || "btn-outline"
-                  ]}
-                >
-                  Guest
-                </button>
-                <button
-                  type="button"
-                  phx-click="set_role"
-                  phx-value-role="user"
-                  class={[
-                    "join-item btn btn-sm",
-                    (@actor.role == :user && "btn-primary") || "btn-outline"
-                  ]}
-                >
-                  User
-                </button>
-                <button
-                  type="button"
-                  phx-click="set_role"
-                  phx-value-role="admin"
-                  class={[
-                    "join-item btn btn-sm",
-                    (@actor.role == :admin && "btn-primary") || "btn-outline"
-                  ]}
-                >
-                  Admin
-                </button>
-              </div>
-              <span class="text-xs opacity-70">
-                ID: {truncate_id(@actor.id)}
-              </span>
-            </div>
-          </div>
-        </div>
 
         <div class="space-y-6">
           <div class="card bg-base-200 shadow-lg">

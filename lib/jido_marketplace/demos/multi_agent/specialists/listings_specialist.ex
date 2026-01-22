@@ -40,11 +40,16 @@ defmodule JidoMarketplace.Demos.MultiAgent.Specialists.Actions.AnalyzeListingsAc
 
   alias Jido.Agent.Directive
   alias Jido.Signal
-  alias JidoMarketplace.Demos.Listings.Tools
+  alias JidoMarketplace.Demos.ListingsDomain
+  alias JidoMarketplace.Demos.ListingsDomain.Listing
+
+  @default_actor %{id: "00000000-0000-0000-0000-000000000001", role: :user}
 
   def run(%{discount: discount}, context) do
-    case Tools.ListListings.run(%{}, %{}) do
-      {:ok, %{listings: listings}} ->
+    ash_context = %{domain: ListingsDomain, actor: @default_actor}
+
+    case Listing.Jido.Read.run(%{}, ash_context) do
+      {:ok, listings} when is_list(listings) ->
         actions = build_actions(listings, discount)
 
         summary =

@@ -17,7 +17,8 @@
 #   --no-llm        Disable LLM for announcement generation (use templates)
 
 alias JidoMarketplace.Demos.MultiAgent.OrchestratorAgent
-alias JidoMarketplace.Demos.Listings.Tools
+alias JidoMarketplace.Demos.ListingsDomain
+alias JidoMarketplace.Demos.ListingsDomain.Listing
 
 defmodule WeekendSaleDemo do
   @moduledoc """
@@ -105,6 +106,8 @@ defmodule WeekendSaleDemo do
     """)
   end
 
+  @default_actor %{id: "00000000-0000-0000-0000-000000000001", role: :user}
+
   defp seed_listings do
     IO.puts("#{IO.ANSI.cyan()}Seeding demo listings...#{IO.ANSI.reset()}")
 
@@ -116,8 +119,10 @@ defmodule WeekendSaleDemo do
       %{title: "Comic Book - Action Comics #1 Reprint", price: "25.00", quantity: 3}
     ]
 
+    ash_context = %{domain: ListingsDomain, actor: @default_actor}
+
     Enum.each(listings, fn params ->
-      case Tools.CreateListing.run(params, %{}) do
+      case Listing.Jido.Create.run(params, ash_context) do
         {:ok, listing} ->
           id = get_id(listing)
           title = get_title(listing)
@@ -310,8 +315,10 @@ defmodule WeekendSaleDemo do
     end
 
     IO.puts("\n#{IO.ANSI.cyan()}Final Listings:#{IO.ANSI.reset()}")
-    case Tools.ListListings.run(%{}, %{}) do
-      {:ok, %{listings: listings}} ->
+    ash_context = %{domain: ListingsDomain, actor: @default_actor}
+
+    case Listing.Jido.Read.run(%{}, ash_context) do
+      {:ok, listings} when is_list(listings) ->
         Enum.each(listings, fn listing ->
           id = get_id(listing)
           title = get_title(listing)

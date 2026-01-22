@@ -8,22 +8,28 @@ defmodule JidoMarketplace.Demos.ListingChatAgent do
   - Publish draft listings
   - Uses :fast model (Claude Haiku) for quick responses
 
-  Uses wrapper tools from `JidoMarketplace.Demos.Listings.Tools` that
-  hardcode the actor/domain context for the demo.
+  Uses AshJido-generated actions directly with `tool_context` to provide
+  the Ash domain and actor for authorization.
   """
-  alias JidoMarketplace.Demos.Listings.Tools
+  alias JidoMarketplace.Demos.ListingsDomain.Listing
 
   use Jido.AI.ReActAgent,
     name: "listing_chat_agent",
     description: "AI assistant for managing marketplace listings",
     tools: [
-      Tools.CreateListing,
-      Tools.ListListings,
-      Tools.UpdateListingPrice,
-      Tools.UpdateListingQuantity,
-      Tools.PublishListing,
-      Tools.DeleteListing
+      Listing.Jido.Create,
+      Listing.Jido.Read,
+      Listing.Jido.UpdatePrice,
+      Listing.Jido.UpdateQuantity,
+      Listing.Jido.Publish,
+      Listing.Jido.Destroy
     ],
+    # Ash context passed to all tool executions
+    # In production, actor would come from authenticated user
+    tool_context: %{
+      domain: JidoMarketplace.Demos.ListingsDomain,
+      actor: %{id: "00000000-0000-0000-0000-000000000001", role: :user}
+    },
     model: :fast,
     max_iterations: 6,
     system_prompt: """

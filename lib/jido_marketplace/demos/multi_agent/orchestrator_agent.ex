@@ -240,17 +240,21 @@ defmodule JidoMarketplace.Demos.MultiAgent.OrchestratorAgent.Actions.ExecutePlan
     description: "Execute the approved sale plan",
     schema: []
 
-  alias JidoMarketplace.Demos.Listings.Tools
+  alias JidoMarketplace.Demos.ListingsDomain
+  alias JidoMarketplace.Demos.ListingsDomain.Listing
+
+  @default_actor %{id: "00000000-0000-0000-0000-000000000001", role: :user}
 
   def run(_params, context) do
     plan = context.state.plan || %{}
     results = %{executed: [], errors: []}
+    ash_context = %{domain: ListingsDomain, actor: @default_actor}
 
     results =
       Enum.reduce(Map.get(plan, :price_updates, []), results, fn action, acc ->
-        case Tools.UpdateListingPrice.run(
+        case Listing.Jido.UpdatePrice.run(
                %{id: action[:listing_id], price: action[:new_price]},
-               %{}
+               ash_context
              ) do
           {:ok, _} ->
             %{acc | executed: [{:price_update, action[:listing_id]} | acc.executed]}
@@ -262,7 +266,7 @@ defmodule JidoMarketplace.Demos.MultiAgent.OrchestratorAgent.Actions.ExecutePlan
 
     results =
       Enum.reduce(Map.get(plan, :publish_actions, []), results, fn action, acc ->
-        case Tools.PublishListing.run(%{id: action[:listing_id]}, %{}) do
+        case Listing.Jido.Publish.run(%{id: action[:listing_id]}, ash_context) do
           {:ok, _} ->
             %{acc | executed: [{:publish, action[:listing_id]} | acc.executed]}
 
