@@ -43,12 +43,13 @@ defmodule JidoMarketplaceWeb.Router do
 
     live "/1-counter", CounterLive, :index
     live "/2-demand-tracker", DemandTrackerLive, :index
+    live "/3-chat", ChatLive, :index
   end
 
   scope "/", JidoMarketplaceWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    live "/", HomeLive, :index
     auth_routes AuthController, JidoMarketplace.Accounts.User, path: "/auth"
     sign_out_route AuthController
 
