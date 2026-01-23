@@ -45,8 +45,6 @@ defmodule JidoMarketplace.MixProject do
       {:jido, "~> 2.0-rc.1", override: true},
       {:jido_ai, github: "agentjido/jido_ai", branch: "main"},
       {:ash_jido, github: "agentjido/ash_jido", branch: "main"},
-      # {:jido_ai, path: "vendor/jido_ai", override: true},
-      # {:ash_jido, path: "vendor/ash_jido"},
 
       # Base Dependencies
       {:gettext, "~> 0.10", override: true},
